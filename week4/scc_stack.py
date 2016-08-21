@@ -1,8 +1,5 @@
-import sys
 graph = {}
 reverse = {}
-
-sys.setrecursionlimit(1500000)
 
 def DFSLoop(graph):
     global t
@@ -18,26 +15,40 @@ def DFSLoop(graph):
     for i in range(875714, 0, -1):
         if i not in explored:
             s = i
-            DFS(graph, i)
-            
-def DFS(graph, i):
-    global t
-    explored[i] = True
-    if s not in leader:
-        leader[s] = [i]
-    else:
-        leader[s].append(i)
-    
-    if i in graph:
-        for j in graph[i]:
-            if j not in explored:
-                DFS(graph, j)
+            DFSStack(graph, i)
 
-    
-    t = t+1
-    f[i] = t
-    if t%100000 == 0:
-        print "T value: " + str(t)
+def DFSStack(graph, i):
+    global t
+    path = []
+    stack = [i]
+    while stack != []:
+        #print stack
+        #print path
+        v= stack[-1]
+        if v not in path:
+            #print "explored: " + str(v)
+            explored[v] = True
+            if s not in leader:
+                leader[s] = [v]
+            else:
+                leader[s].append(v)
+            path.append(v)
+        checker = False
+        if v in graph:
+            for w in reversed(graph[v]):
+                if w not in path:
+                    if w not in explored:
+                        checker = True
+                        stack.append(w)
+        if not checker:
+            t= t+ 1
+            f[v] = t
+            stack.pop()
+            if t%1000 ==0:
+                print "T state: " + str(t)
+            #print "popped: " + str(temp)
+            #print "v,t: " + str(v) + " " + str(t)
+            
 
 def Construct(graph, f):
     leader_graph = {}
@@ -69,16 +80,15 @@ with open("SCC.txt") as f:
             reverse[line[0]] = [line[1]]
         else:
             reverse[line[0]].append(line[1])
+            
 
-print "File loaded."
-
-
+print "File loaded"
 DFSLoop(reverse)
-print "First looping complete"
+print "First loop completed"
 reverse_graph= Construct(graph, f)
 print "Reverse graph constructed"
 DFSLoop(reverse_graph)
-print "Second looping complete"
+print "Second loop constructed"
 
 board = [len(leader[x]) for x in leader]
 board.sort(reverse= True)
