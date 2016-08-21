@@ -36,8 +36,6 @@ def DFS(graph, i):
     
     t = t+1
     f[i] = t
-    if t%100000 == 0:
-        print "T value: " + str(t)
 
 def Construct(graph, f):
     leader_graph = {}
@@ -55,7 +53,6 @@ def Construct(graph, f):
     return leader_graph  
             
     
-print "Start program"
 with open("SCC.txt") as f:
     for line in f:
         line = line.split()
@@ -70,15 +67,10 @@ with open("SCC.txt") as f:
         else:
             reverse[line[0]].append(line[1])
 
-print "File loaded."
-
 
 DFSLoop(reverse)
-print "First looping complete"
 reverse_graph= Construct(graph, f)
-print "Reverse graph constructed"
 DFSLoop(reverse_graph)
-print "Second looping complete"
 
 board = [len(leader[x]) for x in leader]
 board.sort(reverse= True)
