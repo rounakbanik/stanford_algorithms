@@ -17,9 +17,6 @@ with open("edges.txt") as f:
 			graph[line[1]].append([line[0], line[2]])
 		line_counter = line_counter + 1
 
-#print graph
-#print V
-
 X=[1]
 T=[]
 
@@ -34,9 +31,6 @@ while sorted(X) != sorted(V):
         edge = min(edge_array, key= lambda k:k[2])
         T.append(edge)
         X.append(edge[1])
-        #print edge_array
-
-#print T
 
 answer = 0
 
