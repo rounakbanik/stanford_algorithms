@@ -48,23 +48,13 @@ for hamstring in graph1:
     if len(graph1[hamstring]) > 1:
         clusters.append(graph1[hamstring])
 
-
-counter = 0
-
 for node in graph2:
-    print counter
-    counter = counter + 1
-    #print "Nodehr: " + str(node)
     for mask in mask_1:
-        #print "Mask: " + str(mask)
         other_hamstring = xor(graph2[node], mask)
         if len(other_hamstring) != size:
             other_hamstring = (size- len(other_hamstring))*'0' + other_hamstring
-        #print "Other hamstring: " + str(other_hamstring)
         if other_hamstring in graph1:
             other_nodes = graph1[other_hamstring]
-            #print "Other hamstring: " + str(other_hamstring)
-            #print "Other nodes: " + str(graph1[other_hamstring])
         else:
             continue
 
@@ -102,20 +92,13 @@ for node in graph2:
                 clusters.pop(clusters.index(merger1))
                 clusters.append(merger)
 
-#print clusters
-counter = 0
-
 for node in graph2:
-    print counter
-    counter = counter + 1
     for mask in mask_2:
         other_hamstring = xor(graph2[node], mask)
         if len(other_hamstring) != size:
             other_hamstring = (size- len(other_hamstring))*'0' + other_hamstring
         if other_hamstring in graph1:
             other_nodes = graph1[other_hamstring]
-            #print "Node: " + str(node)
-            #print "Other Nodes: " + str(other_nodes)
         else:
             continue
 
@@ -152,10 +135,7 @@ for node in graph2:
                 merger = [v2] + merger1
                 clusters.pop(clusters.index(merger1))
                 clusters.append(merger)
-        #print clusters
 
-print len(clusters)
-print clusters
 x=0
 for cluster in clusters:
     x = x+ len(cluster)
