@@ -15,7 +15,7 @@ def DFSLoop(graph):
     leader = {}
     global f
     f = {}
-    for i in range(875714, 0, -1):
+    for i in range(size, 0, -1):
         if i not in explored:
             s = i
             DFS(graph, i)
@@ -66,6 +66,8 @@ with open("SCC.txt") as f:
             reverse[line[0]] = [line[1]]
         else:
             reverse[line[0]].append(line[1])
+
+    size = line[0]
 
 
 DFSLoop(reverse)
