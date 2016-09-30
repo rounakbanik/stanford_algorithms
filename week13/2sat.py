@@ -1,9 +1,59 @@
-from tarjan import tarjan
+def Tarjan(graph):
+
+    global index_int
+    index_int = 0
+    global S
+    S = []
+    global onstack
+    onstack = {}
+    global index
+    index = {}
+    global lowlink
+    lowlink = {}
+    global components
+    components = []
+
+    for v in graph:
+        if v not in index:
+            strongconnect(v, graph)
+
+    return components
+
+def strongconnect(v, graph):
+    global index_int
+    index[v] = index_int
+    lowlink[v] = index_int
+    index_int = index_int + 1
+    S.append(v)
+    onstack[v] = True
+
+
+    for w in graph[v]:
+        if w not in index:
+            strongconnect(w, graph)
+            lowlink[v] = min(lowlink[v], lowlink[w])
+        elif w in onstack:
+            if onstack[w]:
+                lowlink[v] = min(lowlink[v], index[w])
+
+    if lowlink[v] == index[v]:
+        component = []
+        w = S.pop()
+        onstack[w] = False
+        component.append(w)
+        while w != v:
+            w = S.pop()
+            onstack[w] = False
+            component.append(w)
+
+        components.append(component)
+
+
 
 line_counter = 1
 graph = {}
 
-with open("s6.txt") as f:
+with open("s1.txt") as f:
     for line in f:
         line = [int(i) for i in line.split()]
 
@@ -21,7 +71,7 @@ with open("s6.txt") as f:
 
         line_counter = line_counter + 1
 
-components = tarjan(graph)
+components = Tarjan(graph)
 
 checker = False
 
@@ -36,5 +86,3 @@ for component in components:
 
 if not checker:
     print "Satisfiable"
-
-
